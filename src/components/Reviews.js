@@ -17,7 +17,7 @@ const Reviews = () => {
       <ul>
         {review.map(item => {
           return (
-            <li>
+            <li key={item.id}>
               <div>
                 <h3>Author:{item.author}</h3>
                 <p>{item.content}</p>

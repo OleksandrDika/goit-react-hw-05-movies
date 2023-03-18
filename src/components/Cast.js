@@ -18,7 +18,7 @@ const Cast = () => {
       <ul style={{ listStyle: 'none' }}>
         {cost.map(item => {
           return (
-            <li>
+            <li key={item.id}>
               <div>
                 <img
                   src={`https://image.tmdb.org/t/p/original/${item.profile_path}`}

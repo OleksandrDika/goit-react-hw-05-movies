@@ -10,9 +10,6 @@ const Home = () => {
     getMovies().then(data => {
       console.log(data);
       setMovies(data.results);
-      setTimeout(() => {
-        console.log(movies);
-      }, 2000);
     });
   }, []);
 
@@ -21,7 +18,7 @@ const Home = () => {
       <ul>
         {movies.map(movie => {
           return (
-            <li>
+            <li key={movie.id}>
               <Link key={movie.id} to={`/movies/${movie.id}`}>
                 {movie.title}
               </Link>
