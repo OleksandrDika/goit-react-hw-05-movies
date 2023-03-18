@@ -11,7 +11,7 @@ const MovieDetails = () => {
       console.log(data);
       setMovieDet(data);
     });
-  }, []);
+  }, [movieId]);
 
   return (
     <div>

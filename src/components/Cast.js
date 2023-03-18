@@ -11,7 +11,7 @@ const Cast = () => {
       console.log(data.credits.cast);
       setCost(data.credits.cast);
     });
-  }, []);
+  }, [movieId]);
 
   return (
     <div>

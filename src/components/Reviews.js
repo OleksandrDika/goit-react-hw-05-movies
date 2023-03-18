@@ -10,7 +10,7 @@ const Reviews = () => {
       console.log(data);
       setReview(data.results);
     });
-  }, []);
+  }, [movieId]);
 
   return (
     <div>
