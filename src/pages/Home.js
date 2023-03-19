@@ -8,14 +8,13 @@ const Home = () => {
 
   useEffect(() => {
     getMovies().then(data => {
-      console.log(data);
       setMovies(data.results);
     });
   }, []);
 
   return (
     <div>
-      <ul>
+      <ul style={{ listStyle: 'none' }}>
         {movies.map(movie => {
           return (
             <li key={movie.id}>

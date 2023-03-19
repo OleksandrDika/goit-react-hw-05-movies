@@ -8,7 +8,6 @@ const Cast = () => {
 
   useEffect(() => {
     getOneMovie(movieId).then(data => {
-      console.log(data.credits.cast);
       setCost(data.credits.cast);
     });
   }, [movieId]);

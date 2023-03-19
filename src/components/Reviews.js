@@ -7,7 +7,6 @@ const Reviews = () => {
   const [review, setReview] = useState([]);
   useEffect(() => {
     getMovieReview(movieId).then(data => {
-      console.log(data);
       setReview(data.results);
     });
   }, [movieId]);
@@ -15,16 +14,20 @@ const Reviews = () => {
   return (
     <div>
       <ul>
-        {review.map(item => {
-          return (
-            <li key={item.id}>
-              <div>
-                <h3>Author:{item.author}</h3>
-                <p>{item.content}</p>
-              </div>
-            </li>
-          );
-        })}
+        {review.length > 0 ? (
+          review.map(item => {
+            return (
+              <li key={item.id}>
+                <div>
+                  <h3>Author:{item.author}</h3>
+                  <p>{item.content}</p>
+                </div>
+              </li>
+            );
+          })
+        ) : (
+          <p>No reviews about this movie</p>
+        )}
       </ul>
     </div>
   );

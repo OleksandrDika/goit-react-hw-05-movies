@@ -1,6 +1,10 @@
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import getSearchMovie from 'services/getSearchMovie';
 
 const Movies = () => {
+  const [movies, setMovies] = useState([]);
+  const [movieValue, setMovieValue] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
 
@@ -10,17 +14,37 @@ const Movies = () => {
     }
     setSearchParams({ query: evt.target.value });
   };
+  useEffect(() => {
+    if (movieValue) {
+      getSearchMovie(movieValue).then(data => {
+        setMovies(data.results);
+      });
+    }
+  }, [movieValue]);
+
   return (
     <div>
       <input type="text" value={query} onChange={updateQueryString} />
       <button
         onClick={() => {
-          searchParams({});
+          setMovieValue(query);
         }}
       >
         Search movie
       </button>
-      Search Movie
+      <div>
+        <ul>
+          {movies.map(movie => {
+            return (
+              <li key={movie.id}>
+                <Link key={movie.id} to={`/movies/${movie.id}`}>
+                  {movie.title}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 };

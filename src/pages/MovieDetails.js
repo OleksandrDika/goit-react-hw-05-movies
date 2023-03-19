@@ -8,7 +8,6 @@ const MovieDetails = () => {
 
   useEffect(() => {
     getOneMovie(movieId).then(data => {
-      console.log(data);
       setMovieDet(data);
     });
   }, [movieId]);
@@ -42,7 +41,7 @@ const MovieDetails = () => {
         </ul>
       </div>
       <p>Additional information</p>
-      <ul>
+      <ul style={{ listStyle: 'none' }}>
         <li>
           <Link to="cast">Cast</Link>
         </li>
