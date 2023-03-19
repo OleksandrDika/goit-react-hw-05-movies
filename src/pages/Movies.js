@@ -1,5 +1,6 @@
 import Loading from 'components/Loading';
 import { useEffect, useState } from 'react';
+import { toast, Toaster } from 'react-hot-toast';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import getSearchMovie from 'services/getSearchMovie';
 
@@ -12,17 +13,26 @@ const Movies = () => {
   const query = searchParams.get('query') ?? '';
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState('');
-  console.log(error);
+
+  useEffect(() => {
+    if (!error) return;
+    toast.error(error);
+  }, [error]);
 
   useEffect(() => {
     if (!movieValue) return;
+
     setLoader(true);
     setError('');
     getSearchMovie(movieValue)
       .then(data => {
+        if (!data.results.length) {
+          toast('Not found');
+        }
         setMovies(data.results);
       })
       .catch(error => {
+        toast('Not found');
         setError(error);
       })
       .finally(() => {
@@ -38,6 +48,9 @@ const Movies = () => {
   };
 
   const handleSubmit = evt => {
+    if (!query) {
+      return toast('Not found this movie');
+    }
     evt.preventDefault();
     setMovieValue(query);
   };
@@ -68,6 +81,7 @@ const Movies = () => {
           })}
         </ul>
       </div>
+      <Toaster />
     </div>
   );
 };

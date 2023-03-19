@@ -1,6 +1,7 @@
 // import { useEffect } from 'react';
 import Loading from 'components/Loading';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import getMovies from 'services/getPopularMovies';
 
@@ -8,7 +9,11 @@ const Home = () => {
   const [movies, setMovies] = useState([]);
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState('');
-  console.log(error);
+
+  useEffect(() => {
+    if (!error) return;
+    toast.error(error);
+  }, [error]);
 
   useEffect(() => {
     setLoader(true);

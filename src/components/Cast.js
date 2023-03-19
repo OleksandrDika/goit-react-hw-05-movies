@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import getOneMovie from 'services/getOneMovie';
 import Loading from './Loading';
@@ -8,7 +9,11 @@ const Cast = () => {
   const [cost, setCost] = useState([]);
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState('');
-  console.log(error);
+
+  useEffect(() => {
+    if (!error) return;
+    toast.error(error);
+  }, [error]);
 
   useEffect(() => {
     setLoader(true);

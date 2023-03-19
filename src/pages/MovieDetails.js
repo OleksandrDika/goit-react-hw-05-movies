@@ -1,5 +1,6 @@
 import Loading from 'components/Loading';
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import getOneMovie from 'services/getOneMovie';
 
@@ -10,7 +11,11 @@ const MovieDetails = () => {
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState('');
   const backLocationref = useRef(location.state?.from ?? '/');
-  console.log(error);
+
+  useEffect(() => {
+    if (!error) return;
+    toast.error(error);
+  }, [error]);
 
   useEffect(() => {
     setLoader(true);
