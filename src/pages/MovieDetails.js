@@ -1,5 +1,5 @@
 import Loading from 'components/Loading';
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import getOneMovie from 'services/getOneMovie';
@@ -76,7 +76,9 @@ const MovieDetails = () => {
           <Link to="reviews">Reviews</Link>
         </li>
       </ul>
-      <Outlet />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };
