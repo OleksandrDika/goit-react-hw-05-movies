@@ -5,7 +5,7 @@ const Layout = () => {
   return (
     <div>
       {' '}
-      <ul style={{ listStyle: 'none' }}>
+      <ul style={{ listStyle: 'none', display: 'flex', gap: 20 }}>
         <li>
           <NavLink to="/">Home</NavLink>
         </li>
