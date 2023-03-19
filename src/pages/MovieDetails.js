@@ -14,7 +14,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     if (!error) return;
-    toast.error(error);
+    toast(error);
   }, [error]);
 
   useEffect(() => {
