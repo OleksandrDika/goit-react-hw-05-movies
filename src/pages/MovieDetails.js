@@ -1,5 +1,5 @@
 import Loading from 'components/Loading';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import getOneMovie from 'services/getOneMovie';
 
@@ -9,6 +9,7 @@ const MovieDetails = () => {
   const [movieDet, setMovieDet] = useState({});
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState('');
+  const backLocationref = useRef(location.state?.from ?? '/');
   console.log(error);
 
   useEffect(() => {
@@ -31,11 +32,11 @@ const MovieDetails = () => {
   //     setMovieDet(data);
   //   });
   // }, [movieId]);
-  const goBackPath = location.state?.from ?? { pathname: '/' };
+  // const goBackPath = location.state?.from ?? { pathname: '/' };
   return (
     <div>
       {loader && <Loading />}
-      <Link to={goBackPath}>Go back</Link>
+      <Link to={backLocationref.current}>Go back</Link>
       <div style={{ display: 'flex' }}>
         <img
           src={`https://image.tmdb.org/t/p/original/${movieDet.poster_path}`}

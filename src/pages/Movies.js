@@ -7,6 +7,7 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [movieValue, setMovieValue] = useState('');
   const location = useLocation();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
   const [loader, setLoader] = useState(false);
@@ -29,18 +30,6 @@ const Movies = () => {
       });
   }, [movieValue]);
 
-  // useEffect(() => {
-  //   if (!movieValue) return;
-
-  //   try {
-  //     getSearchMovie(movieValue).then(data => {
-  //       setMovies(data.results);
-  //     });
-  //   } catch (error) {
-  //     // throw new Error()
-  //     console.log(error);
-  //   }
-  // }, [movieValue]);
   const updateQueryString = evt => {
     if (evt.target.value === '') {
       return setSearchParams({});
