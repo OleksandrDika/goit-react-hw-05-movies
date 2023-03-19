@@ -1,20 +1,41 @@
+import Loading from 'components/Loading';
 import { useEffect, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import getOneMovie from 'services/getOneMovie';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
+  const location = useLocation();
   const [movieDet, setMovieDet] = useState({});
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState('');
+  console.log(error);
 
   useEffect(() => {
-    getOneMovie(movieId).then(data => {
-      setMovieDet(data);
-    });
+    setLoader(true);
+    setError('');
+    getOneMovie(movieId)
+      .then(data => {
+        setMovieDet(data);
+      })
+      .catch(error => {
+        setError(error);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
   }, [movieId]);
 
+  // useEffect(() => {
+  //   getOneMovie(movieId).then(data => {
+  //     setMovieDet(data);
+  //   });
+  // }, [movieId]);
+  const goBackPath = location.state?.from ?? { pathname: '/' };
   return (
     <div>
-      <Link to={'/'}>Go back</Link>
+      {loader && <Loading />}
+      <Link to={goBackPath}>Go back</Link>
       <div style={{ display: 'flex' }}>
         <img
           src={`https://image.tmdb.org/t/p/original/${movieDet.poster_path}`}

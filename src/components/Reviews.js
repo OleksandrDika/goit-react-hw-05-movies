@@ -1,18 +1,39 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import getMovieReview from 'services/getMovieReview';
+import Loading from './Loading';
 
 const Reviews = () => {
   const { movieId } = useParams();
   const [review, setReview] = useState([]);
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState('');
+  console.log(error);
+
   useEffect(() => {
-    getMovieReview(movieId).then(data => {
-      setReview(data.results);
-    });
+    setLoader(true);
+    setError('');
+    getMovieReview(movieId)
+      .then(data => {
+        setReview(data.results);
+      })
+      .catch(error => {
+        setError(error);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
   }, [movieId]);
+
+  // useEffect(() => {
+  //   getMovieReview(movieId).then(data => {
+  //     setReview(data.results);
+  //   });
+  // }, [movieId]);
 
   return (
     <div>
+      {loader && <Loading />}
       <ul>
         {review.length > 0 ? (
           review.map(item => {
