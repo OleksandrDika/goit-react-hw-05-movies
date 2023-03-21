@@ -8,30 +8,23 @@ import { Form, Input, Search } from './Movies.styled';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
-  const [movieValue, setMovieValue] = useState('');
-  // const location = useLocation();
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState('');
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
-  const [loader, setLoader] = useState(false);
-  const [error, setError] = useState('');
 
   useEffect(() => {
     if (!error) return;
     toast(error);
   }, [error]);
 
-  // useEffect(() => {
-  //   if (movieValue) return;
-  //   ;
-  // }, []);
-
   useEffect(() => {
-    if (!movieValue) return;
+    if (!query) return;
 
     setLoader(true);
     setError('');
-    getSearchMovie(movieValue)
+    getSearchMovie(query)
       .then(data => {
         if (!data.results.length) {
           toast('Not found');
@@ -45,28 +38,21 @@ const Movies = () => {
       .finally(() => {
         setLoader(false);
       });
-  }, [movieValue]);
-
-  const updateQueryString = evt => {
-    if (evt.target.value === '') {
-      return setSearchParams({});
-    }
-    setSearchParams({ query: evt.target.value });
-  };
+  }, [query]);
 
   const handleSubmit = evt => {
     evt.preventDefault();
+    const query = evt.target.query.value.trim().toLowerCase();
     if (!query) {
-      return toast('Not found this movie');
+      return toast('Please write name of movie');
     }
-
-    setMovieValue(query);
+    setSearchParams({ query });
   };
 
   return (
     <div>
       <Form onSubmit={handleSubmit}>
-        <Input type="text" value={query} onChange={updateQueryString} />
+        <Input type="text" defaultValue={query} name="query" />
         <Search type="submit">Search movie</Search>
       </Form>
       <div>
