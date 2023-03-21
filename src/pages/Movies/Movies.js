@@ -1,13 +1,15 @@
 import Loading from 'components/Loading';
+import MoviesList from 'components/MovieList/MoviesList';
 import { useEffect, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import getSearchMovie from 'services/getSearchMovie';
+import { Form, Input, Search } from './Movies.styled';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [movieValue, setMovieValue] = useState('');
-  const location = useLocation();
+  // const location = useLocation();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
@@ -18,6 +20,11 @@ const Movies = () => {
     if (!error) return;
     toast(error);
   }, [error]);
+
+  // useEffect(() => {
+  //   if (movieValue) return;
+  //   ;
+  // }, []);
 
   useEffect(() => {
     if (!movieValue) return;
@@ -48,38 +55,23 @@ const Movies = () => {
   };
 
   const handleSubmit = evt => {
+    evt.preventDefault();
     if (!query) {
       return toast('Not found this movie');
     }
-    evt.preventDefault();
+
     setMovieValue(query);
   };
 
   return (
     <div>
-      <form>
-        <input type="text" value={query} onChange={updateQueryString} />
-        <button type="submit" onClick={handleSubmit}>
-          Search movie
-        </button>
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <Input type="text" value={query} onChange={updateQueryString} />
+        <Search type="submit">Search movie</Search>
+      </Form>
       <div>
+        {movies && <MoviesList movies={movies} />}
         {loader && <Loading />}
-        <ul>
-          {movies.map(movie => {
-            return (
-              <li key={movie.id}>
-                <Link
-                  key={movie.id}
-                  to={`/movies/${movie.id}`}
-                  state={{ from: location }}
-                >
-                  {movie.title}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
       </div>
       <Toaster />
     </div>

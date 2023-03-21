@@ -1,8 +1,10 @@
 // import { useEffect } from 'react';
 import Loading from 'components/Loading';
+import MoviesList from 'components/MovieList/MoviesList';
+// import MoviesList from 'components/MoviesList';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import getMovies from 'services/getPopularMovies';
 
 const Home = () => {
@@ -37,17 +39,7 @@ const Home = () => {
   return (
     <div>
       <h1>Trending today</h1>
-      <ul style={{ listStyle: 'none' }}>
-        {movies.map(movie => {
-          return (
-            <li key={movie.id}>
-              <Link key={movie.id} to={`/movies/${movie.id}`}>
-                {movie.title}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      {movies && <MoviesList movies={movies} />}
       {loader && <Loading />}
     </div>
   );

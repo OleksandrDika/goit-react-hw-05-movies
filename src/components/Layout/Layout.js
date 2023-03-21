@@ -1,18 +1,19 @@
 import { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { ListLayout, NavItem } from './Layout.styled';
 
 const Layout = () => {
   return (
     <div>
       {' '}
-      <ul style={{ listStyle: 'none', display: 'flex', gap: 20 }}>
-        <li>
+      <ListLayout>
+        <NavItem>
           <NavLink to="/">Home</NavLink>
-        </li>
-        <li>
+        </NavItem>
+        <NavItem>
           <NavLink to="/movies">Movies</NavLink>
-        </li>
-      </ul>
+        </NavItem>
+      </ListLayout>
       <Suspense fallback={<div>Loading...</div>}>
         <Outlet />
       </Suspense>

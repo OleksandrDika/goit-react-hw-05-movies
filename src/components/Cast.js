@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import getOneMovie from 'services/getOneMovie';
 import Loading from './Loading';
+import imagNotFound from 'images/imagNotFound.png';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -30,27 +31,21 @@ const Cast = () => {
       });
   }, [movieId]);
 
-  // useEffect(() => {
-  //   getOneMovie(movieId).then(data => {
-  //     setCost(data.credits.cast);
-  //   });
-  // }, [movieId]);
-
   return (
     <div>
       {loader && <Loading />}
       <ul style={{ listStyle: 'none' }}>
         {cost.map(item => {
+          const { id, profile_path, original_name, character } = item;
+          const poster = profile_path
+            ? `https://image.tmdb.org/t/p/original/${profile_path}`
+            : imagNotFound;
           return (
-            <li key={item.id}>
+            <li key={id}>
               <div>
-                <img
-                  src={`https://image.tmdb.org/t/p/original/${item.profile_path}`}
-                  alt=""
-                  style={{ width: 110 }}
-                />
-                <p>{item.original_name}</p>
-                <p>{item.character}</p>
+                <img src={poster} alt="" style={{ width: 110 }} />
+                <p>{original_name}</p>
+                <p>{character}</p>
               </div>
             </li>
           );
